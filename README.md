@@ -381,13 +381,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Open source community for excellent tools and libraries
 - Academic researchers for model specifications and validation
 
-## 📞 Support
-
-For questions, issues, or contributions:
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/BD_macro_models_sim/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/BD_macro_models_sim/discussions)
-- **Email**: [your.email@domain.com](mailto:your.email@domain.com)
 
 ## 🗺️ Roadmap
 
