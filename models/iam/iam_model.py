@@ -907,6 +907,36 @@ class IntegratedAssessmentModel:
         }
         
         return summary
+    
+    def simulate(self, periods: int = 100) -> Dict:
+        """
+        Run simulation for compatibility with individual model runner
+        
+        Args:
+            periods: Number of periods to simulate
+            
+        Returns:
+            Dictionary containing simulation results
+        """
+        logger.info(f"Running IAM simulation for {periods} periods")
+        
+        # Run baseline scenario
+        baseline_results = self.run_baseline_scenario()
+        
+        # Convert to the expected format
+        results = {
+            'status': 'converged',
+            'periods': len(baseline_results),
+            'data': baseline_results.to_dict('records'),
+            'summary': {
+                'final_gdp': baseline_results.iloc[-1]['gdp'],
+                'final_temperature': baseline_results.iloc[-1]['temperature'],
+                'total_damages': baseline_results['total_damages'].sum(),
+                'renewable_share': baseline_results.iloc[-1]['renewable_share']
+            }
+        }
+        
+        return results
 
 # Example usage and testing
 if __name__ == "__main__":

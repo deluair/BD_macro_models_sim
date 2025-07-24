@@ -253,7 +253,19 @@ class ModelRunner:
                 
                 # Save results
                 results_file = self.results_dir / "svar_results.csv"
-                if isinstance(results, dict):
+                if hasattr(results, '__dict__'):
+                    # Convert SVARResults object to dictionary and save
+                    results_dict = {
+                        'log_likelihood': [results.log_likelihood],
+                        'aic': [results.aic],
+                        'bic': [results.bic],
+                        'hqic': [results.hqic],
+                        'identification': [results.identification]
+                    }
+                    pd.DataFrame(results_dict).to_csv(results_file, index=False)
+                elif isinstance(results, pd.DataFrame):
+                    results.to_csv(results_file, index=False)
+                elif isinstance(results, dict):
                     pd.DataFrame(results).to_csv(results_file, index=False)
                 
                 print(f"💾 Results saved to {results_file}")
@@ -386,7 +398,9 @@ class ModelRunner:
                 
                 # Save results
                 results_file = self.results_dir / "soe_results.csv"
-                if isinstance(results, dict):
+                if isinstance(results, pd.DataFrame):
+                    results.to_csv(results_file, index=False)
+                elif isinstance(results, dict):
                     pd.DataFrame(results).to_csv(results_file, index=False)
                 
                 print(f"💾 Results saved to {results_file}")
@@ -456,7 +470,9 @@ class ModelRunner:
             if results is not None:
                 print("✅ Financial simulation completed")
                 results_file = self.results_dir / "financial_results.csv"
-                if isinstance(results, dict):
+                if isinstance(results, pd.DataFrame):
+                    results.to_csv(results_file, index=False)
+                elif isinstance(results, dict):
                     pd.DataFrame(results).to_csv(results_file, index=False)
                 print(f"💾 Results saved to {results_file}")
                 return results
@@ -487,7 +503,9 @@ class ModelRunner:
             if results is not None:
                 print("✅ ABM simulation completed")
                 results_file = self.results_dir / "abm_results.csv"
-                if isinstance(results, dict):
+                if isinstance(results, pd.DataFrame):
+                    results.to_csv(results_file, index=False)
+                elif isinstance(results, dict):
                     pd.DataFrame(results).to_csv(results_file, index=False)
                 print(f"💾 Results saved to {results_file}")
                 return results
@@ -518,7 +536,9 @@ class ModelRunner:
             if results is not None:
                 print("✅ Behavioral simulation completed")
                 results_file = self.results_dir / "behavioral_results.csv"
-                if isinstance(results, dict):
+                if isinstance(results, pd.DataFrame):
+                    results.to_csv(results_file, index=False)
+                elif isinstance(results, dict):
                     pd.DataFrame(results).to_csv(results_file, index=False)
                 print(f"💾 Results saved to {results_file}")
                 return results
@@ -551,7 +571,9 @@ class ModelRunner:
             if results is not None:
                 print("✅ Game Theory simulation completed")
                 results_file = self.results_dir / "game_theory_results.csv"
-                if isinstance(results, dict):
+                if isinstance(results, pd.DataFrame):
+                    results.to_csv(results_file, index=False)
+                elif isinstance(results, dict):
                     pd.DataFrame(results).to_csv(results_file, index=False)
                 print(f"💾 Results saved to {results_file}")
                 return results
@@ -577,13 +599,16 @@ class ModelRunner:
             config = self.config.get('iam', {})
             model = IAMModel(config)
             print("🔄 Running IAM simulation...")
-            results = model.run_baseline_scenario()
+            results = model.simulate(periods=100)
             
-            if results is not None:
+            if results is not None and results.get('status') == 'converged':
                 print("✅ IAM simulation completed")
                 results_file = self.results_dir / "iam_results.csv"
-                if isinstance(results, dict):
-                    pd.DataFrame(results).to_csv(results_file, index=False)
+                # Save the data from the results
+                if 'data' in results:
+                    pd.DataFrame(results['data']).to_csv(results_file, index=False)
+                else:
+                    pd.DataFrame([results['summary']]).to_csv(results_file, index=False)
                 print(f"💾 Results saved to {results_file}")
                 return results
             else:

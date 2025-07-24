@@ -123,51 +123,29 @@ class SVARModel:
         logger.info("Preparing data for SVAR estimation")
         
         if variables is None:
-            # Map actual data columns to SVAR variables
-            column_mapping = {
-                'GDP Growth (%)': 'gdp_growth',
-                'Inflation (%)': 'inflation',
-                'Unemployment (%)': 'unemployment',
-                'Current Account Balance (% GDP)': 'current_account',
-                'Exports Growth (%)': 'exports_growth',
-                'Imports Growth (%)': 'imports_growth',
-                'Remittances (% GDP)': 'remittances',
-                'GDP per Capita Growth (%)': 'gdp_per_capita_growth'
-            }
-            
-            # Find available variables in data
+            # Use actual column names from the data
             available_vars = []
-            for col in data.columns:
-                if col in column_mapping:
-                    available_vars.append(column_mapping[col])
-                elif col.lower().replace(' ', '_').replace('(%)', '').replace('(', '').replace(')', '') in self.bd_variables:
-                    available_vars.append(col.lower().replace(' ', '_').replace('(%)', '').replace('(', '').replace(')', ''))
             
-            # Use at least 3 variables for SVAR
+            # Priority variables for SVAR analysis
+            priority_vars = ['gdp_growth', 'inflation', 'current_account', 'unemployment', 'exports_growth']
+            
+            # Check which priority variables are available in data
+            for var in priority_vars:
+                if var in data.columns:
+                    available_vars.append(var)
+            
+            # If we don't have enough variables, add more from available columns
             if len(available_vars) < 3:
-                # Add synthetic variables if needed
-                available_vars = ['gdp_growth', 'inflation', 'unemployment'][:min(3, len(data.columns))]
+                for col in data.columns:
+                    if col not in available_vars and col != 'Year' and len(available_vars) < 5:
+                        available_vars.append(col)
             
             variables = available_vars[:min(5, len(available_vars))]  # Limit to 5 variables max
         
         self.variables = variables
         
-        # Rename columns to match expected variable names
-        data_renamed = data.copy()
-        reverse_mapping = {
-            'GDP Growth (%)': 'gdp_growth',
-            'Inflation (%)': 'inflation', 
-            'Unemployment (%)': 'unemployment',
-            'Current Account Balance (% GDP)': 'current_account',
-            'Exports Growth (%)': 'exports_growth'
-        }
-        
-        for old_name, new_name in reverse_mapping.items():
-            if old_name in data_renamed.columns and new_name in variables:
-                data_renamed = data_renamed.rename(columns={old_name: new_name})
-        
-        # Select variables from renamed data
-        svar_data = data_renamed[variables].copy()
+        # Select variables directly from data
+        svar_data = data[variables].copy()
         
         # Handle missing values
         svar_data = svar_data.dropna()
