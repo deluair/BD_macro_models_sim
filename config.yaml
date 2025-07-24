@@ -1,0 +1,320 @@
+# Bangladesh Macroeconomic Models Configuration
+# This file contains parameters and settings for all implemented models
+
+# General Settings
+general:
+  country: "Bangladesh"
+  currency: "BDT"
+  base_year: 2020
+  simulation_periods: 40  # quarters for quarterly models, years for annual
+  data_frequency: "quarterly"  # quarterly, annual, monthly
+  start_date: "2000-01-01"
+  end_date: "2024-12-31"
+  
+# Data Sources Configuration
+data_sources:
+  bangladesh_bank:
+    url: "https://www.bb.org.bd"
+    api_key: null
+    datasets: ["monetary_policy", "exchange_rates", "banking_stats"]
+  
+  bbs:
+    url: "http://bbs.portal.gov.bd"
+    datasets: ["national_accounts", "cpi", "employment"]
+  
+  world_bank:
+    api_key: null
+    indicators: ["NY.GDP.MKTP.CD", "FP.CPI.TOTL.ZG", "SL.UEM.TOTL.ZS"]
+  
+  imf:
+    api_key: null
+    datasets: ["IFS", "WEO", "GFSR"]
+
+# Model-Specific Parameters
+
+# 1. DSGE Model Parameters
+dsge:
+  calibration:
+    # Household parameters
+    beta: 0.99          # Discount factor
+    sigma: 2.0          # Risk aversion
+    phi: 1.0            # Inverse Frisch elasticity
+    
+    # Firm parameters
+    alpha: 0.33         # Capital share
+    theta: 0.75         # Calvo parameter
+    epsilon: 6.0        # Elasticity of substitution
+    
+    # Monetary policy
+    phi_pi: 1.5         # Inflation response
+    phi_y: 0.5          # Output gap response
+    rho_r: 0.8          # Interest rate smoothing
+    
+    # Shock persistence
+    rho_a: 0.9          # Technology shock
+    rho_g: 0.8          # Government spending shock
+    rho_m: 0.5          # Monetary shock
+  
+  estimation:
+    method: "bayesian"   # bayesian, mle, gmm
+    chains: 4
+    iterations: 10000
+    burn_in: 2000
+
+# 2. CGE Model Parameters
+cge:
+  sectors:
+    - "agriculture"
+    - "manufacturing"
+    - "textiles"        # Key for Bangladesh
+    - "services"
+    - "construction"
+    - "utilities"
+  
+  elasticities:
+    armington: 2.0      # Import substitution
+    ces_production: 0.5 # Factor substitution
+    ces_consumption: 0.8 # Consumption substitution
+  
+  closure:
+    investment: "savings_driven"
+    government: "balanced_budget"
+    external: "fixed_current_account"
+
+# 3. SVAR Model Parameters
+svar:
+  variables:
+    - "gdp_growth"
+    - "inflation"
+    - "interest_rate"
+    - "exchange_rate"
+    - "money_supply"
+  
+  lags: 4
+  identification: "cholesky"  # cholesky, long_run, sign_restrictions
+  
+  sign_restrictions:
+    monetary_shock:
+      interest_rate: "+"
+      inflation: "-"
+      gdp_growth: "-"
+
+# 4. OLG Life Cycle Model
+olg:
+  demographics:
+    retirement_age: 60
+    life_expectancy: 72
+    population_growth: 0.012
+    
+  preferences:
+    discount_rate: 0.03
+    risk_aversion: 2.0
+    bequest_motive: 0.1
+    
+  pension_system:
+    replacement_rate: 0.4
+    contribution_rate: 0.1
+    retirement_fund_return: 0.05
+
+# 5. HANK Model Parameters
+hank:
+  heterogeneity:
+    income_states: 7
+    asset_grid_size: 100
+    borrowing_limit: -2.0
+    
+  income_process:
+    persistence: 0.95
+    variance: 0.02
+    
+  monetary_policy:
+    taylor_rule: true
+    phi_pi: 1.5
+    phi_y: 0.5
+
+# 6. Game Theory Models
+game_theory:
+  players:
+    - "central_bank"
+    - "government"
+    - "private_sector"
+    
+  games:
+    monetary_fiscal:
+      type: "sequential"
+      leader: "central_bank"
+      payoff_weights:
+        inflation: 0.5
+        output: 0.3
+        debt: 0.2
+
+# 7. RBC Model
+rbc:
+  technology:
+    tfp_growth: 0.02
+    capital_share: 0.33
+    depreciation: 0.025
+    
+  preferences:
+    discount_factor: 0.99
+    risk_aversion: 2.0
+    labor_elasticity: 1.0
+
+# 8. New Economic Geography
+neg:
+  regions:
+    - "dhaka"
+    - "chittagong"
+    - "sylhet"
+    - "rajshahi"
+    - "khulna"
+    - "barisal"
+    - "rangpur"
+    
+  transport_costs:
+    iceberg_rate: 0.1
+    infrastructure_elasticity: -0.5
+    
+  agglomeration:
+    elasticity_substitution: 5.0
+    share_manufacturing: 0.4
+
+# 9. Search and Matching
+search_matching:
+  labor_market:
+    matching_elasticity: 0.5
+    job_separation_rate: 0.1
+    vacancy_cost: 0.5
+    
+  wage_bargaining:
+    worker_bargaining_power: 0.5
+    unemployment_benefit: 0.4
+
+# 10. Behavioral Model
+behavioral:
+  learning:
+    adaptive_parameter: 0.1
+    memory_length: 8
+    
+  biases:
+    overconfidence: 0.2
+    loss_aversion: 2.25
+    probability_weighting: 0.65
+
+# 11. Agent-Based Model
+abm:
+  agents:
+    households: 1000
+    firms: 100
+    banks: 10
+    
+  networks:
+    topology: "small_world"
+    clustering: 0.3
+    rewiring_prob: 0.1
+    
+  learning:
+    genetic_algorithm: true
+    mutation_rate: 0.01
+    crossover_rate: 0.7
+
+# 12. Integrated Assessment Model
+iam:
+  climate:
+    climate_sensitivity: 3.0
+    carbon_cycle_decay: 0.02
+    
+  damages:
+    damage_function: "quadratic"
+    damage_coefficient: 0.0028
+    
+  abatement:
+    backstop_technology: true
+    learning_rate: 0.05
+
+# 13. Small Open Economy
+small_open_economy:
+  external_sector:
+    world_interest_rate: 0.04
+    risk_premium: 0.02
+    trade_elasticity: 1.5
+    
+  exchange_rate:
+    regime: "managed_float"
+    intervention_threshold: 0.05
+    
+  capital_flows:
+    portfolio_adjustment: 0.1
+    fdi_elasticity: 2.0
+
+# Simulation Settings
+simulation:
+  monte_carlo:
+    replications: 1000
+    random_seed: 12345
+    
+  scenarios:
+    baseline: "historical_trends"
+    optimistic: "high_growth"
+    pessimistic: "external_shocks"
+    
+  shocks:
+    temporary:
+      duration: 4  # quarters
+      magnitude: 1.0  # standard deviations
+    
+    permanent:
+      phase_in: 8  # quarters
+      magnitude: 0.5
+
+# Validation and Testing
+validation:
+  in_sample:
+    start_date: "2000-01-01"
+    end_date: "2020-12-31"
+    
+  out_sample:
+    start_date: "2021-01-01"
+    end_date: "2024-12-31"
+    
+  metrics:
+    - "rmse"
+    - "mae"
+    - "mape"
+    - "theil_u"
+    
+  cross_validation:
+    folds: 5
+    time_series_split: true
+
+# Output Settings
+output:
+  formats: ["csv", "excel", "json", "hdf5"]
+  precision: 4
+  
+  charts:
+    style: "seaborn"
+    dpi: 300
+    format: "png"
+    
+  reports:
+    template: "latex"
+    include_code: false
+    auto_generate: true
+
+# Computational Settings
+computation:
+  parallel:
+    enabled: true
+    processes: 4
+    backend: "multiprocessing"
+    
+  optimization:
+    algorithm: "L-BFGS-B"
+    tolerance: 1e-6
+    max_iterations: 1000
+    
+  numerical:
+    solver: "scipy"
+    integration_method: "rk45"
+    step_size: 0.01
