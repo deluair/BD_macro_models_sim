@@ -1,12 +1,12 @@
 # Bangladesh Macroeconomic Models Simulation
 
-A comprehensive framework for simulating and analyzing Bangladesh's macroeconomic dynamics using multiple modeling approaches including DSGE, CGE, ABM, and SVAR models.
+A comprehensive framework for simulating and analyzing Bangladesh's macroeconomic dynamics using **15 advanced modeling approaches** including DSGE, CGE, ABM, SVAR, HANK, RBC, OLG, and many more specialized models.
 
 ## 🎯 Project Overview
 
 This project provides a unified platform for macroeconomic analysis of Bangladesh, featuring:
 
-- **Multiple Model Types**: DSGE, CGE, Agent-Based Models (ABM), and Structural Vector Autoregression (SVAR)
+- **15 Model Types**: DSGE, CGE, ABM, SVAR, HANK, Behavioral, Financial, Game Theory, IAM, NEG, OLG, QMM, RBC, Search & Matching, and Small Open Economy models
 - **Data Integration**: Automated collection from World Bank, Bangladesh Bank, and other sources
 - **Policy Analysis**: Comprehensive tools for policy scenario evaluation
 - **Performance Monitoring**: Built-in benchmarking and evaluation capabilities
@@ -24,12 +24,21 @@ BD_macro_models_sim/
 │   ├── config/                # Configuration management
 │   │   ├── __init__.py
 │   │   └── config_manager.py
-│   ├── models/                # Model implementations
-│   │   ├── __init__.py
-│   │   ├── dsge_model.py      # DSGE model
-│   │   ├── cge_model.py       # CGE model
-│   │   ├── abm_model.py       # Agent-based model
-│   │   └── svar_model.py      # SVAR model
+│   ├── models/                # Model implementations (15 models)
+│   │   ├── abm/               # Agent-Based Model
+│   │   ├── behavioral/        # Behavioral Model
+│   │   ├── cge/               # Computable General Equilibrium
+│   │   ├── dsge/              # Dynamic Stochastic General Equilibrium
+│   │   ├── financial/         # Financial Model
+│   │   ├── game_theory/       # Game Theory Model
+│   │   ├── iam/               # Integrated Assessment Model
+│   │   ├── neg/               # New Economic Geography
+│   │   ├── olg/               # Overlapping Generations
+│   │   ├── qmm/               # Quantitative Monetary Model
+│   │   ├── rbc/               # Real Business Cycle
+│   │   ├── search_matching/   # Search and Matching Model
+│   │   ├── small_open_economy/ # Small Open Economy
+│   │   └── svar/              # Structural Vector Autoregression
 │   ├── data/                  # Data handling
 │   │   ├── __init__.py
 │   │   ├── collectors.py      # Data collection
@@ -144,25 +153,82 @@ BD_macro_models_sim/
 
 ## 📊 Model Types
 
-### DSGE (Dynamic Stochastic General Equilibrium)
-- **Purpose**: Analyze business cycles and monetary policy
-- **Key Features**: Microfounded, forward-looking agents, stochastic shocks
-- **Use Cases**: Monetary policy analysis, inflation forecasting
+The framework includes **15 comprehensive macroeconomic models**, each designed for specific analytical purposes:
 
-### CGE (Computable General Equilibrium)
-- **Purpose**: Sectoral analysis and trade policy evaluation
-- **Key Features**: Multi-sectoral, input-output linkages, trade flows
-- **Use Cases**: Trade policy, structural reforms, sectoral impacts
-
-### ABM (Agent-Based Model)
+### 1. ABM (Agent-Based Model)
 - **Purpose**: Heterogeneous agent interactions and emergent behavior
 - **Key Features**: Individual agents, learning, network effects
 - **Use Cases**: Financial stability, inequality analysis, behavioral economics
 
-### SVAR (Structural Vector Autoregression)
+### 2. SVAR (Structural Vector Autoregression)
 - **Purpose**: Empirical analysis of macroeconomic relationships
 - **Key Features**: Data-driven, impulse responses, variance decomposition
 - **Use Cases**: Shock identification, forecasting, policy transmission
+
+### 3. DSGE (Dynamic Stochastic General Equilibrium)
+- **Purpose**: Analyze business cycles and monetary policy
+- **Key Features**: Microfounded, forward-looking agents, stochastic shocks
+- **Use Cases**: Monetary policy analysis, inflation forecasting
+
+### 4. CGE (Computable General Equilibrium)
+- **Purpose**: Sectoral analysis and trade policy evaluation
+- **Key Features**: Multi-sectoral, input-output linkages, trade flows
+- **Use Cases**: Trade policy, structural reforms, sectoral impacts
+
+### 5. HANK (Heterogeneous Agent New Keynesian)
+- **Purpose**: Monetary policy with heterogeneous households
+- **Key Features**: Income and wealth inequality, distributional effects
+- **Use Cases**: Inequality analysis, fiscal-monetary interactions
+
+### 6. Behavioral Model
+- **Purpose**: Incorporate psychological and behavioral factors
+- **Key Features**: Bounded rationality, behavioral biases, adaptive expectations
+- **Use Cases**: Market sentiment analysis, behavioral finance
+
+### 7. Financial Model
+- **Purpose**: Financial sector dynamics and stability
+- **Key Features**: Banking sector, credit cycles, financial frictions
+- **Use Cases**: Financial stability, banking regulation, credit analysis
+
+### 8. Game Theory Model
+- **Purpose**: Strategic interactions between economic agents
+- **Key Features**: Nash equilibrium, strategic behavior, coordination
+- **Use Cases**: Policy coordination, international trade negotiations
+
+### 9. IAM (Integrated Assessment Model)
+- **Purpose**: Climate-economy interactions
+- **Key Features**: Environmental externalities, carbon pricing, green growth
+- **Use Cases**: Climate policy, environmental economics, sustainability
+
+### 10. NEG (New Economic Geography)
+- **Purpose**: Spatial economics and regional development
+- **Key Features**: Agglomeration effects, trade costs, regional disparities
+- **Use Cases**: Regional policy, urbanization, spatial inequality
+
+### 11. OLG (Overlapping Generations)
+- **Purpose**: Intergenerational dynamics and long-term analysis
+- **Key Features**: Demographics, pension systems, fiscal sustainability
+- **Use Cases**: Aging population, social security, long-term fiscal policy
+
+### 12. QMM (Quantitative Monetary Model)
+- **Purpose**: Detailed monetary policy analysis
+- **Key Features**: Money demand, velocity, monetary transmission
+- **Use Cases**: Central banking, monetary policy design, inflation targeting
+
+### 13. RBC (Real Business Cycle)
+- **Purpose**: Technology-driven business cycle analysis
+- **Key Features**: Productivity shocks, real factors, no nominal rigidities
+- **Use Cases**: Growth accounting, productivity analysis, real shocks
+
+### 14. Search and Matching Model
+- **Purpose**: Labor market dynamics and unemployment
+- **Key Features**: Job search, matching frictions, unemployment dynamics
+- **Use Cases**: Labor market policy, unemployment analysis, job creation
+
+### 15. SOE (Small Open Economy)
+- **Purpose**: Open economy macroeconomics for small countries
+- **Key Features**: External shocks, exchange rates, capital flows
+- **Use Cases**: Exchange rate policy, external vulnerability, capital account management
 
 ## 🔧 Configuration
 
