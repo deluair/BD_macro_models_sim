@@ -238,31 +238,14 @@ class GameTheoreticModel:
         """
         # Simplified bilateral trade payoffs
         # Payoffs represent welfare gains from trade agreements
+        # Using direct strategy profile mapping for consistency
         
-        payoffs = {}
-        
-        # Bangladesh vs China
-        payoffs[('Bangladesh', 'China')] = {
-            ('cooperate', 'cooperate'): (8, 12),
-            ('cooperate', 'defect'): (-2, 15),
-            ('defect', 'cooperate'): (3, -5),
-            ('defect', 'defect'): (0, 0)
-        }
-        
-        # Bangladesh vs India
-        payoffs[('Bangladesh', 'India')] = {
-            ('cooperate', 'cooperate'): (6, 8),
-            ('cooperate', 'defect'): (-1, 10),
-            ('defect', 'cooperate'): (2, -3),
-            ('defect', 'defect'): (0, 0)
-        }
-        
-        # Bangladesh vs EU
-        payoffs[('Bangladesh', 'EU')] = {
-            ('cooperate', 'cooperate'): (10, 15),
-            ('cooperate', 'defect'): (-3, 18),
-            ('defect', 'cooperate'): (4, -8),
-            ('defect', 'defect'): (0, 0)
+        payoffs = {
+            # Bangladesh vs China bilateral payoffs
+            ('cooperate', 'cooperate'): (8.0, 12.0),   # Mutual cooperation
+            ('cooperate', 'defect'): (-2.0, 15.0),     # Bangladesh cooperates, China defects
+            ('defect', 'cooperate'): (3.0, -5.0),      # Bangladesh defects, China cooperates
+            ('defect', 'defect'): (0.0, 0.0),          # Mutual defection
         }
         
         return payoffs
@@ -328,15 +311,15 @@ class GameTheoreticModel:
         # Format: (Central Bank utility, Government utility)
         
         payoffs = {
-            ('tight_monetary', 'tight_fiscal'): (-2, -3),    # Recession risk
-            ('tight_monetary', 'loose_fiscal'): (1, 2),      # Balanced approach
-            ('tight_monetary', 'neutral_fiscal'): (0, -1),   # Moderate contraction
-            ('loose_monetary', 'tight_fiscal'): (2, 1),      # Balanced approach
-            ('loose_monetary', 'loose_fiscal'): (-1, 3),     # Overheating risk
-            ('loose_monetary', 'neutral_fiscal'): (1, 2),    # Moderate expansion
-            ('neutral_monetary', 'tight_fiscal'): (-1, 0),   # Moderate contraction
-            ('neutral_monetary', 'loose_fiscal'): (2, 1),    # Moderate expansion
-            ('neutral_monetary', 'neutral_fiscal'): (0, 0)   # Status quo
+            ('tight_monetary', 'tight_fiscal'): (-2.0, -3.0),    # Recession risk
+            ('tight_monetary', 'loose_fiscal'): (1.0, 2.0),      # Balanced approach
+            ('tight_monetary', 'neutral_fiscal'): (0.0, -1.0),   # Moderate contraction
+            ('loose_monetary', 'tight_fiscal'): (2.0, 1.0),      # Balanced approach
+            ('loose_monetary', 'loose_fiscal'): (-1.0, 3.0),     # Overheating risk
+            ('loose_monetary', 'neutral_fiscal'): (1.0, 2.0),    # Moderate expansion
+            ('neutral_monetary', 'tight_fiscal'): (-1.0, 0.0),   # Moderate contraction
+            ('neutral_monetary', 'loose_fiscal'): (2.0, 1.0),    # Moderate expansion
+            ('neutral_monetary', 'neutral_fiscal'): (0.0, 0.0)   # Status quo
         }
         
         return payoffs
@@ -560,60 +543,79 @@ class GameTheoreticModel:
     
     def _find_nash_2player(self, game: Dict) -> Dict:
         """
-        Find Nash equilibrium for 2-player game
+        Find Nash equilibrium for 2-player game with robust error handling
         """
-        players = game['players']
-        payoffs = game['payoffs']
-        
-        if isinstance(game['strategies'], list):
-            strategies = {player: game['strategies'] for player in players}
-        else:
-            strategies = game['strategies']
-        
-        equilibria = []
-        
-        # Check all strategy combinations
-        for s1 in strategies[players[0]]:
-            for s2 in strategies[players[1]]:
-                strategy_profile = (s1, s2)
-                
-                # Check if this is a Nash equilibrium
-                is_nash = True
-                
-                # Check player 1's best response
-                current_payoff_1 = self._get_payoff(players[0], strategy_profile, payoffs)
-                for alt_s1 in strategies[players[0]]:
-                    alt_profile = (alt_s1, s2)
-                    alt_payoff_1 = self._get_payoff(players[0], alt_profile, payoffs)
-                    if alt_payoff_1 > current_payoff_1:
-                        is_nash = False
-                        break
-                
-                if is_nash:
-                    # Check player 2's best response
-                    current_payoff_2 = self._get_payoff(players[1], strategy_profile, payoffs)
-                    for alt_s2 in strategies[players[1]]:
-                        alt_profile = (s1, alt_s2)
-                        alt_payoff_2 = self._get_payoff(players[1], alt_profile, payoffs)
-                        if alt_payoff_2 > current_payoff_2:
+        try:
+            players = game['players']
+            payoffs = game['payoffs']
+            
+            if len(players) != 2:
+                raise ValueError(f"Expected 2 players, got {len(players)}")
+            
+            if isinstance(game['strategies'], list):
+                strategies = {player: game['strategies'] for player in players}
+            else:
+                strategies = game['strategies']
+            
+            equilibria = []
+            
+            # Validate strategies exist for both players
+            for player in players:
+                if player not in strategies or not strategies[player]:
+                    logger.warning(f"No strategies found for player {player}")
+                    return {'equilibria': [], 'num_equilibria': 0, 'game_type': '2-player simultaneous', 'error': 'Missing strategies'}
+            
+            # Check all strategy combinations
+            for s1 in strategies[players[0]]:
+                for s2 in strategies[players[1]]:
+                    strategy_profile = (s1, s2)
+                    
+                    # Check if this is a Nash equilibrium
+                    is_nash = True
+                    
+                    # Check player 1's best response
+                    current_payoff_1 = self._get_payoff(players[0], strategy_profile, payoffs)
+                    for alt_s1 in strategies[players[0]]:
+                        alt_profile = (alt_s1, s2)
+                        alt_payoff_1 = self._get_payoff(players[0], alt_profile, payoffs)
+                        if alt_payoff_1 > current_payoff_1 + 1e-10:  # Add small tolerance for numerical precision
                             is_nash = False
                             break
-                
-                if is_nash:
-                    payoff_1 = self._get_payoff(players[0], strategy_profile, payoffs)
-                    payoff_2 = self._get_payoff(players[1], strategy_profile, payoffs)
                     
-                    equilibria.append({
-                        'strategy_profile': strategy_profile,
-                        'payoffs': {players[0]: payoff_1, players[1]: payoff_2},
-                        'type': 'pure_strategy'
-                    })
-        
-        return {
-            'equilibria': equilibria,
-            'num_equilibria': len(equilibria),
-            'game_type': '2-player simultaneous'
-        }
+                    if is_nash:
+                        # Check player 2's best response
+                        current_payoff_2 = self._get_payoff(players[1], strategy_profile, payoffs)
+                        for alt_s2 in strategies[players[1]]:
+                            alt_profile = (s1, alt_s2)
+                            alt_payoff_2 = self._get_payoff(players[1], alt_profile, payoffs)
+                            if alt_payoff_2 > current_payoff_2 + 1e-10:  # Add small tolerance for numerical precision
+                                is_nash = False
+                                break
+                    
+                    if is_nash:
+                        payoff_1 = self._get_payoff(players[0], strategy_profile, payoffs)
+                        payoff_2 = self._get_payoff(players[1], strategy_profile, payoffs)
+                        
+                        equilibria.append({
+                            'strategy_profile': strategy_profile,
+                            'payoffs': {players[0]: payoff_1, players[1]: payoff_2},
+                            'type': 'pure_strategy'
+                        })
+            
+            return {
+                'equilibria': equilibria,
+                'num_equilibria': len(equilibria),
+                'game_type': '2-player simultaneous'
+            }
+            
+        except Exception as e:
+            logger.error(f"Error finding Nash equilibrium for 2-player game: {str(e)}")
+            return {
+                'equilibria': [],
+                'num_equilibria': 0,
+                'game_type': '2-player simultaneous',
+                'error': str(e)
+            }
     
     def _find_nash_multiplayer(self, game: Dict) -> Dict:
         """
@@ -676,27 +678,53 @@ class GameTheoreticModel:
     
     def _get_payoff(self, player: str, strategy_profile: Tuple, payoffs: Dict) -> float:
         """
-        Get payoff for a player given strategy profile
+        Get payoff for a player given strategy profile with robust error handling
         """
-        # Handle different payoff structures
-        if player in payoffs:
-            # Player-specific payoffs
-            if isinstance(payoffs[player], dict):
-                if len(strategy_profile) == 1:
-                    return payoffs[player].get(strategy_profile[0], 0)
-                else:
-                    return payoffs[player].get(strategy_profile, 0)
-            else:
-                return payoffs[player]
-        
-        # Bilateral payoffs
-        for key, value in payoffs.items():
-            if isinstance(key, tuple) and player in key:
-                if strategy_profile in value:
-                    player_index = key.index(player)
-                    return value[strategy_profile][player_index]
-        
-        return 0.0
+        try:
+            # Handle direct strategy profile payoffs (most common case)
+            if strategy_profile in payoffs:
+                payoff_value = payoffs[strategy_profile]
+                if isinstance(payoff_value, (list, tuple)):
+                    # Find player index in the game
+                    game_players = list(self.players.keys())
+                    if player in game_players:
+                        player_index = game_players.index(player)
+                        if player_index < len(payoff_value):
+                            return float(payoff_value[player_index])
+                elif isinstance(payoff_value, dict) and player in payoff_value:
+                    return float(payoff_value[player])
+                elif isinstance(payoff_value, (int, float)):
+                    return float(payoff_value)
+            
+            # Handle player-specific payoff dictionaries
+            if player in payoffs:
+                player_payoffs = payoffs[player]
+                if isinstance(player_payoffs, dict):
+                    if strategy_profile in player_payoffs:
+                        return float(player_payoffs[strategy_profile])
+                    # Try with individual strategy if single strategy
+                    if len(strategy_profile) == 1 and strategy_profile[0] in player_payoffs:
+                        return float(player_payoffs[strategy_profile[0]])
+                elif isinstance(player_payoffs, (int, float)):
+                    return float(player_payoffs)
+            
+            # Handle bilateral payoffs with player pairs as keys
+            for key, value in payoffs.items():
+                if isinstance(key, tuple) and player in key:
+                    if isinstance(value, dict) and strategy_profile in value:
+                        payoff_tuple = value[strategy_profile]
+                        if isinstance(payoff_tuple, (list, tuple)):
+                            player_index = key.index(player)
+                            if player_index < len(payoff_tuple):
+                                return float(payoff_tuple[player_index])
+            
+            # Default fallback
+            logger.warning(f"No payoff found for player {player} with strategy {strategy_profile}")
+            return 0.0
+            
+        except Exception as e:
+            logger.error(f"Error calculating payoff for player {player}: {str(e)}")
+            return 0.0
     
     def _find_sequential_equilibrium(self, game: Dict) -> Dict:
         """

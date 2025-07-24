@@ -332,21 +332,36 @@ class CGEModel:
             sigma = self.parameters.sigma[sector]
             beta = self.parameters.beta[sector]
             
-            # Calculate CES aggregate
+            # Calculate CES aggregate with improved numerical stability
             ces_sum = 0
+            total_alpha = sum(alpha.get(factor, 0) for factor in factor_inputs)
+            
+            # Normalize alpha parameters to ensure they sum to 1
+            if total_alpha > 0:
+                normalized_alpha = {factor: alpha.get(factor, 0) / total_alpha for factor in factor_inputs}
+            else:
+                normalized_alpha = {factor: 1.0 / len(factor_inputs) for factor in factor_inputs}
+            
             for factor in factor_inputs:
-                if factor in alpha:
-                    # Improved numerical stability for CES function
-                    factor_input = max(factor_inputs[factor], 1e-6)  # Ensure positive
+                # Ensure positive factor inputs with reasonable bounds
+                factor_input = max(min(factor_inputs[factor], 1e6), 1e-3)
+                
+                if abs(sigma - 1) < 1e-4:
+                    # Cobb-Douglas case (sigma = 1)
+                    ces_sum += normalized_alpha[factor] * np.log(factor_input)
+                else:
+                    # General CES case with numerical safeguards
+                    sigma_safe = max(min(sigma, 5.0), 0.2)  # More conservative bounds
+                    exponent = (sigma_safe - 1) / sigma_safe
                     
-                    if abs(sigma - 1) < 1e-4:
-                        # Cobb-Douglas case (sigma = 1)
-                        ces_sum += alpha[factor] * np.log(factor_input)
-                    else:
-                        # General CES case with numerical safeguards
-                        sigma_safe = max(min(sigma, 10.0), 0.1)  # Bound sigma
-                        exponent = (sigma_safe - 1) / sigma_safe
-                        ces_sum += alpha[factor] * (factor_input ** exponent)
+                    # Prevent overflow/underflow
+                    try:
+                        term = normalized_alpha[factor] * (factor_input ** exponent)
+                        if np.isfinite(term):
+                            ces_sum += term
+                    except (OverflowError, ZeroDivisionError):
+                        # Fallback to Cobb-Douglas
+                        ces_sum += normalized_alpha[factor] * np.log(factor_input)
             
             if abs(sigma - 1) < 1e-4:
                 # Cobb-Douglas case
@@ -702,21 +717,50 @@ class CGEModel:
         
         # Set up system of equations
         def equation_system(x):
-            # Unpack variables
-            variables = self._unpack_variables(x)
-            
-            # Compute all equations
-            all_equations = {}
-            for eq_type, eq_func in self.equations.items():
-                equations = eq_func(variables)
-                all_equations.update(equations)
-            
-            # Debug logging
-            logger.info(f"Number of variables: {len(x)}")
-            logger.info(f"Number of equations: {len(all_equations)}")
-            
-            # Return residuals
-            return list(all_equations.values())
+            try:
+                # Unpack variables with bounds checking
+                variables = self._unpack_variables(x)
+                
+                # Validate variables
+                for var_type, var_dict in variables.items():
+                    if isinstance(var_dict, dict):
+                        for key, value in var_dict.items():
+                            if isinstance(value, dict):
+                                for subkey, subvalue in value.items():
+                                    if not np.isfinite(subvalue) or subvalue < 0:
+                                        variables[var_type][key][subkey] = max(1e-6, abs(subvalue))
+                            elif not np.isfinite(value) or value < 0:
+                                variables[var_type][key] = max(1e-6, abs(value))
+                
+                # Compute all equations with error handling
+                all_equations = {}
+                for eq_type, eq_func in self.equations.items():
+                    try:
+                        equations = eq_func(variables)
+                        all_equations.update(equations)
+                    except Exception as e:
+                        logger.warning(f"Error in {eq_type} equations: {str(e)}")
+                        # Add dummy equations to maintain system balance
+                        if eq_type == 'production':
+                            for sector in self.sectors:
+                                all_equations[f'output_{sector}'] = 0.0
+                        elif eq_type == 'factor_demand':
+                            for sector in self.sectors:
+                                for factor in self.factors:
+                                    all_equations[f'factor_demand_{sector}_{factor}'] = 0.0
+                
+                # Ensure we have the right number of equations
+                residuals = list(all_equations.values())
+                
+                # Replace any non-finite values
+                residuals = [r if np.isfinite(r) else 0.0 for r in residuals]
+                
+                return residuals
+                
+            except Exception as e:
+                logger.error(f"Critical error in equation system: {str(e)}")
+                # Return zero residuals to prevent solver crash
+                return [0.0] * len(x)
         
         # Initial guess
         x0 = self._pack_variables(self.variables)

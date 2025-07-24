@@ -447,12 +447,30 @@ class Firm(BaseAgent):
         # Profit
         self.profit = self.revenue - self.costs
         
-        # Investment decision
+        # Investment decision with depreciation and constraints
+        depreciation_rate = 0.05  # 5% annual depreciation
+        depreciation = self.capital * depreciation_rate
+        self.capital = max(1.0, self.capital - depreciation)  # Apply depreciation
+        
         if self.profit > 0:
-            investment_rate = 0.2 if self.profit > self.revenue * 0.1 else 0.1
-            investment = self.profit * investment_rate
+            # More conservative investment rate based on firm size and market conditions
+            max_investment_rate = 0.08 if self.capital < 10000 else 0.04  # Reduced rates
+            investment_rate = min(max_investment_rate, 0.06 if self.profit > self.revenue * 0.1 else 0.03)
+            
+            # Stricter caps to prevent explosive growth
+            max_investment = min(
+                self.profit * investment_rate,
+                self.capital * 0.15,  # Reduced from 0.3 to 0.15
+                50000  # Absolute maximum investment per period
+            )
+            investment = max_investment
+            
             self.capital += investment
+            # Cap total capital to prevent unrealistic values
+            self.capital = min(self.capital, 500000)  # Maximum firm capital
             decisions['investment'] = investment
+        else:
+            decisions['investment'] = 0
         
         # Credit demand
         if self.cash < self.costs and self.profit < 0:
