@@ -1,1 +1,0 @@
-# HANK model package

@@ -1,0 +1,567 @@
+{
+  "summary": {
+    "total_tests": 25,
+    "successful_tests": "23",
+    "failed_tests": "2",
+    "total_execution_time": 1.956855058670044,
+    "average_execution_time": 0.07827420234680176,
+    "total_memory_usage": 0.58203125,
+    "average_memory_usage": 0.02328125
+  },
+  "model_statistics": {
+    "dsge": {
+      "tests": 9,
+      "success_rate": 1.0,
+      "avg_execution_time": 0.0790967411465115,
+      "avg_memory_usage": 0.0,
+      "operations": [
+        "calibrate",
+        "simulate",
+        "forecast"
+      ]
+    },
+    "cge": {
+      "tests": 5,
+      "success_rate": 1.0,
+      "avg_execution_time": 0.10573048591613769,
+      "avg_memory_usage": 0.0,
+      "operations": [
+        "calibrate",
+        "simulate"
+      ]
+    },
+    "abm": {
+      "tests": 5,
+      "success_rate": 1.0,
+      "avg_execution_time": 0.10562338829040527,
+      "avg_memory_usage": 0.0,
+      "operations": [
+        "calibrate",
+        "simulate"
+      ]
+    },
+    "svar": {
+      "tests": 6,
+      "success_rate": 0.6666666666666666,
+      "avg_execution_time": 0.03136916955312093,
+      "avg_memory_usage": 0.09700520833333333,
+      "operations": [
+        "estimate",
+        "forecast",
+        "impulse_response"
+      ]
+    }
+  },
+  "operation_statistics": {
+    "calibrate": {
+      "tests": 3,
+      "success_rate": 1.0,
+      "avg_execution_time": 0.1008315881093343,
+      "avg_memory_usage": 0.0,
+      "models": [
+        "dsge",
+        "cge",
+        "abm"
+      ]
+    },
+    "simulate": {
+      "tests": 12,
+      "success_rate": 1.0,
+      "avg_execution_time": 0.10691436131795247,
+      "avg_memory_usage": 0.0,
+      "models": [
+        "dsge",
+        "cge",
+        "abm"
+      ]
+    },
+    "forecast": {
+      "tests": 8,
+      "success_rate": 1.0,
+      "avg_execution_time": 0.045874059200286865,
+      "avg_memory_usage": 0.0,
+      "models": [
+        "dsge",
+        "svar"
+      ]
+    },
+    "estimate": {
+      "tests": 1,
+      "success_rate": 0.0,
+      "avg_execution_time": 0.004395484924316406,
+      "avg_memory_usage": 0.58203125,
+      "models": [
+        "svar"
+      ]
+    },
+    "impulse_response": {
+      "tests": 1,
+      "success_rate": 0.0,
+      "avg_execution_time": 0.0,
+      "avg_memory_usage": 0.0,
+      "models": [
+        "svar"
+      ]
+    }
+  },
+  "performance_rankings": {
+    "fastest_operations": [
+      {
+        "model_name": "dsge",
+        "operation": "forecast",
+        "execution_time": 0.010385513305664062
+      },
+      {
+        "model_name": "svar",
+        "operation": "forecast",
+        "execution_time": 0.011307239532470703
+      },
+      {
+        "model_name": "svar",
+        "operation": "forecast",
+        "execution_time": 0.020888805389404297
+      },
+      {
+        "model_name": "dsge",
+        "operation": "forecast",
+        "execution_time": 0.021082639694213867
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "execution_time": 0.02545905113220215
+      }
+    ],
+    "slowest_operations": [
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "execution_time": 0.2512199878692627
+      },
+      {
+        "model_name": "cge",
+        "operation": "simulate",
+        "execution_time": 0.2503042221069336
+      },
+      {
+        "model_name": "abm",
+        "operation": "simulate",
+        "execution_time": 0.25029563903808594
+      },
+      {
+        "model_name": "abm",
+        "operation": "calibrate",
+        "execution_time": 0.10100889205932617
+      },
+      {
+        "model_name": "cge",
+        "operation": "simulate",
+        "execution_time": 0.10099649429321289
+      }
+    ],
+    "memory_efficient": [
+      {
+        "model_name": "dsge",
+        "operation": "calibrate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      }
+    ],
+    "memory_intensive": [
+      {
+        "model_name": "dsge",
+        "operation": "calibrate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      },
+      {
+        "model_name": "dsge",
+        "operation": "simulate",
+        "memory_usage_mb": 0.0
+      }
+    ]
+  },
+  "timestamp": "2025-07-24T11:45:19.570928",
+  "system_info": {
+    "python_version": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+    "platform": "win32",
+    "cpu_count": 16,
+    "memory_total_gb": 31.726390838623047,
+    "cpu_freq_mhz": 2304.0
+  },
+  "raw_results": [
+    {
+      "model_name": "dsge",
+      "operation": "calibrate",
+      "execution_time": 0.10066962242126465,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {},
+      "timestamp": "2025-07-24T11:45:16.334033",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "simulate",
+      "execution_time": 0.02545905113220215,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 50
+      },
+      "timestamp": "2025-07-24T11:45:16.415893",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "simulate",
+      "execution_time": 0.051108360290527344,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 100
+      },
+      "timestamp": "2025-07-24T11:45:16.517464",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "simulate",
+      "execution_time": 0.10024070739746094,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 200
+      },
+      "timestamp": "2025-07-24T11:45:16.665253",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "simulate",
+      "execution_time": 0.2512199878692627,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 500
+      },
+      "timestamp": "2025-07-24T11:45:16.964027",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "forecast",
+      "execution_time": 0.010385513305664062,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 10
+      },
+      "timestamp": "2025-07-24T11:45:17.024699",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "forecast",
+      "execution_time": 0.021082639694213867,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 20
+      },
+      "timestamp": "2025-07-24T11:45:17.107749",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "forecast",
+      "execution_time": 0.05150628089904785,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.2421875,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 50
+      },
+      "timestamp": "2025-07-24T11:45:17.210846",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "dsge",
+      "operation": "forecast",
+      "execution_time": 0.10019850730895996,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 100
+      },
+      "timestamp": "2025-07-24T11:45:17.375412",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "cge",
+      "operation": "calibrate",
+      "execution_time": 0.10081624984741211,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {},
+      "timestamp": "2025-07-24T11:45:17.539134",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "cge",
+      "operation": "simulate",
+      "execution_time": 0.02579975128173828,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 50
+      },
+      "timestamp": "2025-07-24T11:45:17.617451",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "cge",
+      "operation": "simulate",
+      "execution_time": 0.0507357120513916,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 100
+      },
+      "timestamp": "2025-07-24T11:45:17.724759",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "cge",
+      "operation": "simulate",
+      "execution_time": 0.10099649429321289,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 200
+      },
+      "timestamp": "2025-07-24T11:45:17.889374",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "cge",
+      "operation": "simulate",
+      "execution_time": 0.2503042221069336,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 500
+      },
+      "timestamp": "2025-07-24T11:45:18.193824",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "abm",
+      "operation": "calibrate",
+      "execution_time": 0.10100889205932617,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {},
+      "timestamp": "2025-07-24T11:45:18.354440",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "abm",
+      "operation": "simulate",
+      "execution_time": 0.025515079498291016,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 50
+      },
+      "timestamp": "2025-07-24T11:45:18.435151",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "abm",
+      "operation": "simulate",
+      "execution_time": 0.050913095474243164,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 100
+      },
+      "timestamp": "2025-07-24T11:45:18.540164",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "abm",
+      "operation": "simulate",
+      "execution_time": 0.10038423538208008,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 200
+      },
+      "timestamp": "2025-07-24T11:45:18.695977",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "abm",
+      "operation": "simulate",
+      "execution_time": 0.25029563903808594,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "periods": 500
+      },
+      "timestamp": "2025-07-24T11:45:19.000636",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "svar",
+      "operation": "estimate",
+      "execution_time": 0.004395484924316406,
+      "memory_usage_mb": 0.58203125,
+      "peak_memory_mb": 175.24609375,
+      "cpu_percent": 0.0,
+      "parameters": {},
+      "timestamp": "2025-07-24T11:45:19.065982",
+      "success": false,
+      "error_message": "'MockModel' object has no attribute 'estimate'"
+    },
+    {
+      "model_name": "svar",
+      "operation": "forecast",
+      "execution_time": 0.011307239532470703,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.83203125,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 10
+      },
+      "timestamp": "2025-07-24T11:45:19.130489",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "svar",
+      "operation": "forecast",
+      "execution_time": 0.020888805389404297,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.83203125,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 20
+      },
+      "timestamp": "2025-07-24T11:45:19.215818",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "svar",
+      "operation": "forecast",
+      "execution_time": 0.05063486099243164,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.83203125,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 50
+      },
+      "timestamp": "2025-07-24T11:45:19.314098",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "svar",
+      "operation": "forecast",
+      "execution_time": 0.10098862648010254,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.83203125,
+      "cpu_percent": 0.0,
+      "parameters": {
+        "forecast_periods": 100
+      },
+      "timestamp": "2025-07-24T11:45:19.473185",
+      "success": true,
+      "error_message": null
+    },
+    {
+      "model_name": "svar",
+      "operation": "impulse_response",
+      "execution_time": 0.0,
+      "memory_usage_mb": 0.0,
+      "peak_memory_mb": 175.83203125,
+      "cpu_percent": 0.0,
+      "parameters": {},
+      "timestamp": "2025-07-24T11:45:19.536490",
+      "success": false,
+      "error_message": "'MockModel' object has no attribute 'impulse_response'"
+    }
+  ]
+}

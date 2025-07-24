@@ -1,9 +1,0 @@
-metric,value,description
-log_likelihood,1097.6135649861685,Log-likelihood
-aic,-53.11540748836706,Akaike Information Criterion
-bic,-49.13811942099345,Bayesian Information Criterion
-sample_size,55.0,Sample Size
-n_variables,5.0,Number of Variables
-irf_max_response,166.27846732259906,Maximum IRF Response
-irf_min_response,-52.946007108535476,Minimum IRF Response
-fevd_average,0.2,Average FEVD Contribution

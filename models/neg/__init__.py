@@ -1,1 +1,0 @@
-# NEG model package

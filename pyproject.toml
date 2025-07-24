@@ -1,0 +1,320 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bangladesh-macro-models"
+version = "1.0.0"
+description = "Comprehensive macroeconomic modeling suite for Bangladesh"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Bangladesh Macro Models Team", email = "team@bdmacromodels.org"}
+]
+keywords = ["economics", "macroeconomics", "modeling", "bangladesh", "dsge", "cge", "abm"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Office/Business :: Financial",
+]
+
+dependencies = [
+    # Core Data Science Libraries
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "scipy>=1.10.0",
+    "scikit-learn>=1.3.0",
+    
+    # Statistical and Econometric Libraries
+    "statsmodels>=0.14.0",
+    "arch>=6.2.0",
+    "linearmodels>=5.3.0",
+    "pymc>=5.7.0",
+    "arviz>=0.16.0",
+    
+    # Time Series Analysis
+    "tslearn>=0.6.0",
+    "sktime>=0.24.0",
+    
+    # Optimization and Numerical Methods
+    "cvxpy>=1.4.0",
+    "nlopt>=2.7.0",
+    
+    # Data Collection and APIs
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "wbdata>=0.3.0",
+    "pandas-datareader>=0.10.0",
+    "yfinance>=0.2.0",
+    
+    # Database and Storage
+    "sqlalchemy>=2.0.0",
+    "h5py>=3.9.0",
+    
+    # Visualization
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.17.0",
+    "bokeh>=3.2.0",
+    
+    # Configuration and Utilities
+    "pyyaml>=6.0",
+    "pydantic>=2.0.0",
+    "click>=8.0.0",
+    "tqdm>=4.65.0",
+    "joblib>=1.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.3.0",
+    "pytest-mock>=3.11.0",
+    "pytest-timeout>=2.1.0",
+    "hypothesis>=6.82.0",
+    
+    # Code Quality
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+    "bandit>=1.7.5",
+    "pydocstyle>=6.3.0",
+    "autoflake>=2.2.0",
+    
+    # Documentation
+    "sphinx>=7.1.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "myst-parser>=2.0.0",
+    "sphinx-autodoc-typehints>=1.24.0",
+    
+    # Development Tools
+    "ipython>=8.14.0",
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+    "jupyterlab>=4.0.0",
+]
+
+web = [
+    "streamlit>=1.25.0",
+    "dash>=2.14.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+]
+
+ml = [
+    "tensorflow>=2.13.0",
+    "torch>=2.0.0",
+    "optuna>=3.3.0",
+    "xgboost>=1.7.0",
+    "lightgbm>=4.0.0",
+]
+
+cloud = [
+    "boto3>=1.28.0",
+    "azure-storage-blob>=12.17.0",
+    "google-cloud-storage>=2.10.0",
+    "dask[complete]>=2023.7.0",
+]
+
+all = [
+    "bangladesh-macro-models[dev,web,ml,cloud]"
+]
+
+[project.urls]
+Homepage = "https://github.com/deluair/BD_macro_models_sim"
+Repository = "https://github.com/deluair/BD_macro_models_sim"
+Documentation = "https://bd-macro-models.readthedocs.io"
+"Bug Tracker" = "https://github.com/deluair/BD_macro_models_sim/issues"
+
+[project.scripts]
+bd-macro = "scripts.run_all_models:main"
+bd-individual = "scripts.run_individual_model:main"
+
+# Tool configurations
+
+[tool.setuptools.packages.find]
+where = [".", "src"]
+include = ["models*", "analysis*", "scripts*", "src*"]
+exclude = ["tests*", "docs*", "*.egg-info*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | docs
+  )/
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+skip_glob = ["docs/*", "build/*", "dist/*"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503", "E501"]
+max-complexity = 10
+exclude = [
+    ".git",
+    "__pycache__",
+    "docs",
+    "build",
+    "dist",
+    ".eggs",
+    "*.egg-info",
+    ".tox",
+    ".venv",
+    "venv"
+]
+per-file-ignores = [
+    "__init__.py:F401",
+    "tests/*:D100,D101,D102,D103,D104"
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "numpy.*",
+    "pandas.*",
+    "scipy.*",
+    "sklearn.*",
+    "statsmodels.*",
+    "matplotlib.*",
+    "seaborn.*",
+    "plotly.*",
+    "arch.*",
+    "pymc.*",
+    "arviz.*"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=models",
+    "--cov=analysis",
+    "--cov=scripts",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--cov-fail-under=70"
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "validation: Model validation tests",
+    "slow: Slow running tests",
+    "requires_data: Tests that require external data",
+    "requires_network: Tests that require network access",
+    "performance: Performance benchmarking tests"
+]
+filterwarnings = [
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "error::FutureWarning"
+]
+timeout = 300
+
+[tool.coverage.run]
+source = ["models", "analysis", "scripts", "src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__init__.py",
+    "setup.py",
+    "*/site-packages/*",
+    "*/venv/*",
+    "*/.venv/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\bProtocol\):",
+    "@(abc\.)?abstractmethod"
+]
+ignore_errors = true
+show_missing = true
+precision = 2
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.bandit]
+exclude_dirs = ["tests", "docs", "build", "dist"]
+skips = ["B101", "B601"]
+
+[tool.pydocstyle]
+convention = "google"
+add_ignore = ["D100", "D104", "D105", "D107"]
+match_dir = "^(?!(tests|docs|build|dist)).*"
+
+[tool.autoflake]
+remove-all-unused-imports = true
+remove-unused-variables = true
+remove-duplicate-keys = true
+ignore-init-module-imports = true
+recursive = true
+in-place = true
+exclude = ["__init__.py", "docs", "build", "dist"]

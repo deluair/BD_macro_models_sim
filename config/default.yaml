@@ -1,0 +1,177 @@
+# Default Configuration for Bangladesh Macroeconomic Models
+# This file contains the base configuration that can be overridden by environment-specific configs
+
+# Project Information
+project:
+  name: "Bangladesh Macroeconomic Models"
+  version: "1.0.0"
+  description: "Comprehensive macroeconomic modeling suite for Bangladesh"
+  author: "Bangladesh Macro Models Team"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/application.log"
+  max_file_size: "10MB"
+  backup_count: 5
+  console_output: true
+
+# Data Configuration
+data:
+  # Data directories
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  external_data_dir: "data/external"
+  
+  # Data sources
+  world_bank:
+    base_url: "https://api.worldbank.org/v2"
+    timeout: 30
+    retry_attempts: 3
+  
+  bangladesh_bank:
+    base_url: "https://www.bb.org.bd"
+    timeout: 30
+  
+  # Data validation
+  validation:
+    enable_checks: true
+    fail_on_error: false
+    max_missing_percentage: 10
+
+# Model Configuration
+models:
+  # Global model settings
+  global:
+    random_seed: 42
+    simulation_periods: 100
+    monte_carlo_runs: 1000
+    convergence_tolerance: 1e-6
+    max_iterations: 1000
+  
+  # DSGE Model
+  dsge:
+    calibration:
+      beta: 0.99      # Discount factor
+      alpha: 0.33     # Capital share
+      delta: 0.025    # Depreciation rate
+      rho: 0.95       # AR(1) coefficient for technology
+      sigma_eps: 0.01 # Standard deviation of technology shock
+    
+    estimation:
+      method: "bayesian"
+      chains: 4
+      draws: 2000
+      tune: 1000
+  
+  # CGE Model
+  cge:
+    sectors: ["agriculture", "manufacturing", "services"]
+    factors: ["labor", "capital", "land"]
+    households: ["rural", "urban"]
+    convergence_criteria: 1e-4
+    max_solver_iterations: 500
+  
+  # ABM Model
+  abm:
+    agents:
+      households: 1000
+      firms: 100
+      banks: 10
+    
+    constraints:
+      max_investment_rate: 0.20
+      max_investment_absolute: 50000
+      max_firm_capital: 500000
+    
+    simulation:
+      periods: 50
+      burn_in_periods: 10
+
+# Analysis Configuration
+analysis:
+  # Forecasting
+  forecasting:
+    horizon: 12  # quarters
+    confidence_intervals: [0.68, 0.95]
+    methods: ["arima", "var", "neural_network"]
+  
+  # Policy Analysis
+  policy:
+    scenarios: ["baseline", "fiscal_expansion", "monetary_tightening"]
+    shock_magnitude: 0.01  # 1% shock
+  
+  # Validation
+  validation:
+    train_test_split: 0.8
+    cross_validation_folds: 5
+    metrics: ["rmse", "mae", "mape"]
+
+# Output Configuration
+outputs:
+  # Results
+  results_dir: "outputs/results"
+  reports_dir: "outputs/reports"
+  plots_dir: "outputs/plots"
+  
+  # File formats
+  save_formats: ["csv", "xlsx", "json"]
+  plot_formats: ["png", "pdf", "svg"]
+  
+  # Visualization
+  visualization:
+    style: "seaborn-v0_8"
+    figure_size: [12, 8]
+    dpi: 300
+    color_palette: "viridis"
+
+# Performance Configuration
+performance:
+  # Caching
+  caching:
+    enabled: true
+    backend: "disk"  # Options: disk, redis, memory
+    cache_dir: "cache"
+    ttl: 3600  # Time to live in seconds
+  
+  # Parallel Processing
+  parallel:
+    enabled: true
+    max_workers: 4  # Number of parallel workers
+    chunk_size: 100
+  
+  # Memory Management
+  memory:
+    max_memory_usage: "8GB"
+    garbage_collection: true
+
+# Security Configuration
+security:
+  # API Keys (use environment variables in production)
+  api_keys:
+    world_bank: null
+    quandl: null
+    fred: null
+  
+  # Data encryption
+  encryption:
+    enabled: false
+    algorithm: "AES-256"
+
+# Development Configuration
+development:
+  debug: false
+  profiling: false
+  testing:
+    use_mock_data: false
+    fast_mode: false
+  
+  # Code quality
+  code_quality:
+    enable_warnings: true
+    strict_mode: false
+
+# Environment-specific overrides
+# These will be loaded from environment-specific config files
+environment: "default"
