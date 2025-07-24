@@ -1,0 +1,221 @@
+{
+  "scenarios": [
+    {
+      "name": "Baseline Economic Uncertainty",
+      "description": "Standard uncertainty around baseline economic parameters",
+      "num_simulations": 2000,
+      "time_horizon": 20,
+      "parameters": [
+        {
+          "name": "productivity_growth",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 2.5,
+            "std": 0.8
+          }
+        },
+        {
+          "name": "population_growth",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 1.2,
+            "std": 0.3
+          }
+        },
+        {
+          "name": "investment_rate",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 25.0,
+            "std": 3.0
+          }
+        },
+        {
+          "name": "government_spending_share",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 15.0,
+            "std": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "External Shock Analysis",
+      "description": "Analysis of external economic shocks impact",
+      "num_simulations": 1500,
+      "time_horizon": 20,
+      "parameters": [
+        {
+          "name": "oil_price_shock",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 25.0
+          }
+        },
+        {
+          "name": "global_growth_shock",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 1.5
+          }
+        },
+        {
+          "name": "commodity_price_shock",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 15.0
+          }
+        },
+        {
+          "name": "capital_flow_shock",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Climate Risk Assessment",
+      "description": "Economic impact of climate-related risks",
+      "num_simulations": 1000,
+      "time_horizon": 20,
+      "parameters": [
+        {
+          "name": "climate_damage_agriculture",
+          "distribution": "beta",
+          "parameters": {
+            "alpha": 2,
+            "beta": 8,
+            "scale": 10
+          }
+        },
+        {
+          "name": "extreme_weather_frequency",
+          "distribution": "triangular",
+          "parameters": {
+            "left": 0,
+            "mode": 2,
+            "right": 8
+          }
+        },
+        {
+          "name": "adaptation_cost",
+          "distribution": "uniform",
+          "parameters": {
+            "low": 0.5,
+            "high": 3.0
+          }
+        },
+        {
+          "name": "sea_level_impact",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 1.0,
+            "std": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "Financial Stress Testing",
+      "description": "Banking and financial sector stress scenarios",
+      "num_simulations": 1500,
+      "time_horizon": 20,
+      "parameters": [
+        {
+          "name": "credit_risk_increase",
+          "distribution": "triangular",
+          "parameters": {
+            "left": 0,
+            "mode": 5,
+            "right": 20
+          }
+        },
+        {
+          "name": "liquidity_shock",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 10.0
+          }
+        },
+        {
+          "name": "exchange_rate_volatility",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 8.0,
+            "std": 3.0
+          }
+        },
+        {
+          "name": "interest_rate_shock",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Policy Uncertainty Analysis",
+      "description": "Impact of policy uncertainty on economic outcomes",
+      "num_simulations": 2000,
+      "time_horizon": 20,
+      "parameters": [
+        {
+          "name": "fiscal_policy_uncertainty",
+          "distribution": "uniform",
+          "parameters": {
+            "low": -3.0,
+            "high": 3.0
+          }
+        },
+        {
+          "name": "monetary_policy_uncertainty",
+          "distribution": "normal",
+          "parameters": {
+            "mean": 0.0,
+            "std": 1.5
+          }
+        },
+        {
+          "name": "trade_policy_uncertainty",
+          "distribution": "triangular",
+          "parameters": {
+            "left": -5,
+            "mode": 0,
+            "right": 5
+          }
+        },
+        {
+          "name": "regulatory_uncertainty",
+          "distribution": "beta",
+          "parameters": {
+            "alpha": 2,
+            "beta": 3,
+            "scale": 10
+          }
+        }
+      ]
+    }
+  ],
+  "variables": [
+    "gdp_growth",
+    "inflation",
+    "unemployment",
+    "current_account",
+    "government_debt",
+    "trade_balance",
+    "real_exchange_rate",
+    "investment_rate",
+    "consumption_growth",
+    "productivity_growth"
+  ]
+}

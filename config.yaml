@@ -64,12 +64,14 @@ dsge:
 # 2. CGE Model Parameters
 cge:
   sectors:
-    - "agriculture"
-    - "manufacturing"
-    - "textiles"        # Key for Bangladesh
-    - "services"
-    - "construction"
-    - "utilities"
+    - "agriculture"      # Rice, wheat, other crops
+    - "livestock"        # Cattle, poultry, fisheries
+    - "textiles"         # Ready-made garments, textiles (Key for Bangladesh)
+    - "manufacturing"    # Other manufacturing
+    - "construction"     # Construction and real estate
+    - "services"         # Trade, transport, other services
+    - "government"       # Government services
+    - "financial"        # Banking and financial services
   
   elasticities:
     armington: 2.0      # Import substitution

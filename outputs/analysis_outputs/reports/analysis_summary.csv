@@ -1,0 +1,4 @@
+analysis_type,status,timestamp,output_directory,report_available
+policy_analysis,completed,2025-07-24T10:03:26.196028,comprehensive_analysis\policy_analysis,True
+simulations,completed,2025-07-24T10:03:45.692091,comprehensive_analysis\simulations,True
+validation,failed,2025-07-24T10:03:45.721606,,False

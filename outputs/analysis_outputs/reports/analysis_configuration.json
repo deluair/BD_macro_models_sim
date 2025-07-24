@@ -1,0 +1,47 @@
+{
+  "framework_version": "1.0.0",
+  "analysis_timestamp": "2025-07-24T10:03:50.675416",
+  "base_directory": "C:\\Users\\mhossen\\OneDrive - University of Tennessee\\AI\\BD_macro_models_sim",
+  "output_directory": "comprehensive_analysis",
+  "analysis_configuration": {
+    "run_forecasting": true,
+    "run_policy_analysis": true,
+    "run_simulations": true,
+    "run_validation": true,
+    "create_summary_report": true,
+    "generate_visualizations": true
+  },
+  "key_indicators": [
+    "gdp_growth",
+    "inflation",
+    "unemployment",
+    "current_account",
+    "government_debt",
+    "trade_balance",
+    "real_exchange_rate",
+    "investment_rate",
+    "consumption_growth",
+    "exports_growth"
+  ],
+  "analysis_results": {
+    "forecasting": {},
+    "policy_analysis": {
+      "status": "completed",
+      "report_path": "comprehensive_analysis\\policy_analysis\\policy_analysis_report.md",
+      "output_directory": "comprehensive_analysis\\policy_analysis",
+      "timestamp": "2025-07-24T10:03:26.196028"
+    },
+    "simulations": {
+      "status": "completed",
+      "report_path": "comprehensive_analysis\\simulations\\simulation_analysis_report.md",
+      "output_directory": "comprehensive_analysis\\simulations",
+      "timestamp": "2025-07-24T10:03:45.692091"
+    },
+    "validation": {
+      "status": "failed",
+      "error": "scale < 0",
+      "timestamp": "2025-07-24T10:03:45.721606"
+    },
+    "summary": {}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "analysis_summary": {
+    "num_scenarios": 8,
+    "num_models": 11,
+    "policy_types": [
+      "fiscal",
+      "structural",
+      "trade",
+      "monetary"
+    ],
+    "top_scenario": "Export Diversification Strategy",
+    "most_effective_policy_type": "trade"
+  }
+}

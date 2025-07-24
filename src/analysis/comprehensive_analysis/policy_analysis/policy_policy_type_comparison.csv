@@ -1,0 +1,5 @@
+policy_type,avg_effectiveness,effectiveness_std,avg_cumulative_impact
+fiscal,1.872,1.738,-0.12
+monetary,1.786,1.839,1.376
+structural,4.004,5.754,1.442
+trade,4.702,6.322,5.731
